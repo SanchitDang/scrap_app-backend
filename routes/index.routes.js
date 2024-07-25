@@ -1,9 +1,17 @@
+// routes/index.routes.js
 import { Router } from "express";
-import { loginUser, registerUser } from "../controllers/auth.controllers.js";
+import userRoutes from './user.routes.js';
+import agentRoutes from './agent.routes.js';
+import categoryRoutes from './category.routes.js'
+import productRoutes from './product.routes.js'
+import serviceRequestRoutes from './serviceRequest.routes.js';
 
 const router = Router();
 
-router.post('/login', loginUser);
-router.post('/register', registerUser);
+router.use('/users', userRoutes);
+router.use('/agents', agentRoutes);
+router.use('/serviceRequests', serviceRequestRoutes);
+router.use('/categories', categoryRoutes);
+router.use('/products', productRoutes);
 
 export default router;
