@@ -1,4 +1,5 @@
 // controllers/admin.controller.js
+import jwt from 'jsonwebtoken'; 
 import adminModel from '../models/admin.model.js';
 
 // Create a new admin
@@ -52,5 +53,51 @@ export const deleteAdminById = async (req, res) => {
     res.status(200).json({ message: 'Admin deleted successfully' });
   } catch (error) {
     res.status(500).json({ message: 'Error deleting admin', error });
+  }
+};
+
+// Admin login
+const JWT_SECRET_KEY = process.env.JWT_SECRET_KEY || 'your-secret-key';
+
+export const loginAdmin = async (req, res) => {
+  try {
+    const { email, password } = req.body;
+
+    if (!email || !password) {
+      return res.status(400).json({ message: "Required Fields not sent" });
+    }
+
+    const user = await adminModel.findOne({ email });
+
+    if (!user) {
+      return res.status(400).json({ message: "User doesn't exist" });
+    }
+
+    // Validate password
+    if (password !== user.password) {
+      return res.status(401).json({ message: "Incorrect Password Provided" });
+    }
+
+    // Generate JWT token
+    const token = jwt.sign(
+      {
+        id: user._id,
+        email: user.email,
+        role: user.role, // Add any other user details you want to include in the token
+      },
+      JWT_SECRET_KEY,
+      { expiresIn: '1h' } // Token expiration time
+    );
+
+    // Send response with token and user data
+    return res.status(200).json({
+      message: "Successfully logged in.",
+      result: {
+        user,
+        token, // Include the token in the response
+      },
+    });
+  } catch (error) {
+    return res.status(500).json({ error: "Internal Server Error", message: error.message });
   }
 };
