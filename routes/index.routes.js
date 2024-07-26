@@ -4,6 +4,7 @@ import userRoutes from './user.routes.js';
 import agentRoutes from './agent.routes.js';
 import categoryRoutes from './category.routes.js'
 import productRoutes from './product.routes.js'
+import adminRoutes from './admin.routes.js'
 import serviceRequestRoutes from './serviceRequest.routes.js';
 
 const router = Router();
