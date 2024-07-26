@@ -8,6 +8,7 @@ import serviceRequestRoutes from './serviceRequest.routes.js';
 
 const router = Router();
 
+router.use('/admins', adminRoutes);
 router.use('/users', userRoutes);
 router.use('/agents', agentRoutes);
 router.use('/serviceRequests', serviceRequestRoutes);

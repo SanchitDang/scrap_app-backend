@@ -19,6 +19,19 @@ const serviceRequestSchema = new mongoose.Schema({
     type: String, 
     required: true 
   },
+  pick_address_lat: { 
+    type: Number, 
+    required: true 
+  },
+  pick_address_lng: { 
+    type: Number, 
+    required: true 
+  },
+  status : { 
+    type: String, 
+    enum: ['pending', 'completed'], 
+    default: 'pending' 
+  },
   description: { 
     type: String, 
     required: true 
