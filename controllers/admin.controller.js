@@ -1,6 +1,9 @@
 // controllers/admin.controller.js
 import jwt from 'jsonwebtoken'; 
 import adminModel from '../models/admin.model.js';
+import agentModel from "../models/agent.model.js";
+import userModel from "../models/user.model.js";
+import serviceRequestModel from "../models/serviceRequest.model.js";
 
 // Create a new admin
 export const addAdmin = async (req, res) => {
@@ -105,5 +108,32 @@ export const loginAdmin = async (req, res) => {
     });
   } catch (error) {
     return res.status(500).json({ error: "Internal Server Error", message: error.message });
+  }
+};
+
+// Dashboard data
+export const getDashboardData = async (req, res) => {
+  try {
+    const usersCount = await userModel.countDocuments();
+    const agentsCount = await agentModel.countDocuments();
+    const inventoryManagersCount = await adminModel.countDocuments({ role: 'inventory-manager' });
+    const serviceRequestsCount = await serviceRequestModel.countDocuments();
+    const completedServiceRequestsCount = await serviceRequestModel.countDocuments({ status: 'completed' });
+    const pendingServiceRequestsCount = await serviceRequestModel.countDocuments({ status: 'pending' });
+    const recentServiceRequests = await serviceRequestModel.find().sort({ createdAt: -1 }).limit(5);
+
+    const dashboardData = {
+      users: usersCount,
+      agents: agentsCount,
+      inventory_managers: inventoryManagersCount,
+      service_requests: serviceRequestsCount,
+      completed_service_requests: completedServiceRequestsCount,
+      pending_service_requests: pendingServiceRequestsCount,
+      recent_service_requests: recentServiceRequests
+    };
+
+    res.status(200).json(dashboardData);
+  } catch (error) {
+    res.status(500).json({ message: 'Error fetching dashboard data', error });
   }
 };

@@ -6,6 +6,7 @@ import categoryRoutes from './category.routes.js'
 import productRoutes from './product.routes.js'
 import adminRoutes from './admin.routes.js'
 import serviceRequestRoutes from './serviceRequest.routes.js';
+import dashboardRoutes from './dashboard.routes.js';
 
 const router = Router();
 
@@ -15,5 +16,6 @@ router.use('/agents', agentRoutes);
 router.use('/serviceRequests', serviceRequestRoutes);
 router.use('/categories', categoryRoutes);
 router.use('/products', productRoutes);
+router.use('/dashboard', dashboardRoutes);
 
 export default router;
