@@ -2,12 +2,14 @@
 import express from "express";
 import cors from "cors";
 import "dotenv/config";
+import morgan from "morgan";
 import { connectDatabase } from "./config/db.js";
 import IndexRoutes from "./routes/index.routes.js";
 
 const app = express();
 
 app.use(cors());
+app.use(morgan('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 

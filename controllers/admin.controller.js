@@ -89,10 +89,16 @@ export const loginAdmin = async (req, res) => {
       { expiresIn: '1h' } // Token expiration time
     );
 
-    // Send response with token and user data
+    let expiresIn = "3600";
+    let expireDate = new Date();
+
+    expireDate.setHours(expireDate.getHours() + 1);
+
     return res.status(200).json({
       message: "Successfully logged in.",
       result: {
+        expiresIn,
+        expireDate,
         user,
         token, // Include the token in the response
       },
