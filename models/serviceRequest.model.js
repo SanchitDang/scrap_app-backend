@@ -19,6 +19,10 @@ const serviceRequestSchema = new mongoose.Schema({
     type: String, 
     required: true 
   },
+  pick_address: {
+    type: String,
+    required: true 
+  },
   pick_address_lat: { 
     type: Number, 
     required: true 
