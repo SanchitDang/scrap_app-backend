@@ -2,7 +2,6 @@ import upload from '../middleware/uploadMiddleware.js';
 import adminModel from '../models/admin.model.js';
 import agentModel from '../models/agent.model.js';
 import userModel from '../models/user.model.js';
-import path from 'path';
 
 export const uploadProfilePic = (req, res) => {
   upload(req, res, async (err) => {
@@ -16,15 +15,18 @@ export const uploadProfilePic = (req, res) => {
 
     try {
       const { user_type, user_id } = req.body;
-      const imagePath = path.join('/public', req.file.path);
-
+      
+      let imagePath;
       let model;
       if (user_type === 'admin') {
         model = adminModel;
+        imagePath = `/public/uploads/admin/${req.file.filename}`;
       } else if (user_type === 'agent') {
         model = agentModel;
+        imagePath = `/public/uploads/agent/${req.file.filename}`;
       } else if (user_type === 'user') {
         model = userModel;
+        imagePath = `/public/uploads/user/${req.file.filename}`;
       }
 
       if (!model) {
