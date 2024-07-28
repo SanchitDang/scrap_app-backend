@@ -67,6 +67,28 @@ export const updateServiceRequestById = async (req, res) => {
   }
 };
 
+// Change service request status (pending -> completed / completed -> pending)
+export const changeServiceRequestStatus = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const serviceRequest = await serviceRequestModel.findById(id);
+    if (!serviceRequest) {
+      return res.status(404).json({ message: 'Service request not found' });
+    }
+
+    // Get the current status and toggle it
+    const newStatus = serviceRequest.status === 'pending' ? 'completed' : 'pending';
+    serviceRequest.status = newStatus;
+
+    // Save the updated service request
+    await serviceRequest.save();
+
+    res.status(200).json({ message: 'Service request status updated successfully', serviceRequest });
+  } catch (error) {
+    res.status(500).json({ message: 'Error updating service request', error });
+  }
+}
+
 // Delete service request by ID
 export const deleteServiceRequestById = async (req, res) => {
   try {

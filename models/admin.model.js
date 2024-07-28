@@ -24,6 +24,9 @@ const adminSchema = new mongoose.Schema({
     enum: ['admin', 'inventory-manager'], 
     default: 'admin' 
   },
+  image_url: {
+    type: String
+  }
 }, { timestamps: true });
 
 const adminModel = mongoose.model('admin', adminSchema);
