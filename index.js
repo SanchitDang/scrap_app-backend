@@ -17,7 +17,7 @@ const __dirname = path.dirname(__filename);
 // Setting cors for vercel deploy
 app.use(cors(
   {
-      origin: ["https://scrap-app-admin.vercel.app"],
+      origin: "*",
       methods: ["POST", "GET"],
       credentials: true
   }
