@@ -26,6 +26,10 @@ const adminSchema = new mongoose.Schema({
   },
   image_url: {
     type: String
+  },
+  disabled: {
+    type: Boolean,
+    default: false
   }
 }, { timestamps: true });
 

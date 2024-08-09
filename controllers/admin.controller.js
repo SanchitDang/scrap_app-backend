@@ -26,6 +26,16 @@ export const getAdmins = async (req, res) => {
   }
 };
 
+// Get enabled admins
+export const getEnabledAdmins = async (req, res) => {
+  try {
+    const admins = await adminModel.find({disabled: false});
+    res.status(200).json(admins);
+  } catch (error) {
+    res.status(500).json({ message: 'Error fetching admins', error });
+  }
+};
+
 // Get admin by ID
 export const getAdminById = async (req, res) => {
   try {
@@ -56,6 +66,25 @@ export const deleteAdminById = async (req, res) => {
     res.status(200).json({ message: 'Admin deleted successfully' });
   } catch (error) {
     res.status(500).json({ message: 'Error deleting admin', error });
+  }
+};
+
+// Disable Admin by ID
+export const disableAdminById = async (req, res) => {
+  try {
+    const disabledAdmin = await adminModel.findByIdAndUpdate(
+      req.params.id,
+      { $set: { disabled: { $not: "$disabled" } } },
+      { new: true }
+    );
+
+    if (!disabledAdmin) {
+      return res.status(404).json({ message: 'Admin not found' });
+    }
+
+    res.status(200).json({ message: 'Admin disabled status updated successfully', disabledAdmin });
+  } catch (error) {
+    res.status(500).json({ message: 'Error disabling Admin', error: error.message });
   }
 };
 

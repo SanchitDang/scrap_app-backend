@@ -10,6 +10,13 @@ const categorySchema = new mongoose.Schema({
   description: {
     type: String,
     required: false
+  },
+  image_url: {
+    type: String
+  },
+  disabled: {
+    type: Boolean,
+    default: false
   }
 }, { timestamps: true });
 

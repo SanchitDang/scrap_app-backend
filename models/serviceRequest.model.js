@@ -9,14 +9,13 @@ const serviceRequestSchema = new mongoose.Schema({
   agent_id: { 
     type: mongoose.Schema.Types.ObjectId, 
     ref: 'agent', 
-    required: true 
   },
   category: { 
-    type: String, 
+    type: [String],
     required: true 
   },
   product: { 
-    type: String, 
+    type: [String],
     required: true 
   },
   pick_address: {
@@ -36,10 +35,31 @@ const serviceRequestSchema = new mongoose.Schema({
     enum: ['pending', 'completed'], 
     default: 'pending' 
   },
-  description: { 
-    type: String, 
-    required: true 
-  }
+  type : {
+    type: String,
+    enum: ['waste-collection', 'buy-request', 'sell_request'],
+    default: 'pending'
+  },
+  description: {
+    type: String,
+    required: true
+  },
+  completion_date: {
+    type: String,
+  },
+  amount_paid: {
+    type: String,
+  },
+  amount_paid_each_product: [{
+    product: {
+      type: String,
+      required: true
+    },
+    amount_paid: {
+      type: String, 
+      required: true
+    }
+  }]
 }, { timestamps: true });
 
 const serviceRequestModel = mongoose.model('serviceRequest', serviceRequestSchema);

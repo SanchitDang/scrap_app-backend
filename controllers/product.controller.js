@@ -27,6 +27,16 @@ export const getProducts = async (req, res) => {
   }
 };
 
+// Get all enabled products
+export const getEnabledProducts = async (req, res) => {
+  try {
+    const products = await productModel.find({disabled: false}).populate('category_id');
+    res.status(200).json(products);
+  } catch (error) {
+    res.status(500).json({ message: 'Error fetching products', error });
+  }
+};
+
 // Get product by ID
 export const getProductById = async (req, res) => {
   try {
@@ -63,5 +73,24 @@ export const deleteProductById = async (req, res) => {
     res.status(200).json({ message: 'Product deleted successfully' });
   } catch (error) {
     res.status(500).json({ message: 'Error deleting product', error });
+  }
+};
+
+// Disable Product by ID
+export const disableProductById = async (req, res) => {
+  try {
+    const disabledProduct = await productModel.findByIdAndUpdate(
+      req.params.id,
+      { $set: { disabled: { $not: "$disabled" } } },
+      { new: true }
+    );
+
+    if (!disabledProduct) {
+      return res.status(404).json({ message: 'Product not found' });
+    }
+
+    res.status(200).json({ message: 'Product disabled status updated successfully', disabledProduct });
+  } catch (error) {
+    res.status(500).json({ message: 'Error disabling Product', error: error.message });
   }
 };

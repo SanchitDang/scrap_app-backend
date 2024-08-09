@@ -54,3 +54,22 @@ export const deleteUserById = async (req, res) => {
     res.status(500).json({ message: 'Error deleting user', error });
   }
 };
+
+// Disable User by ID
+export const disableUserById = async (req, res) => {
+  try {
+    const disabledUser = await userModel.findByIdAndUpdate(
+      req.params.id,
+      { $set: { disabled: { $not: "$disabled" } } },
+      { new: true }
+    );
+
+    if (!disabledUser) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    res.status(200).json({ message: 'User disabled status updated successfully', disabledUser });
+  } catch (error) {
+    res.status(500).json({ message: 'Error disabling User', error: error.message });
+  }
+};

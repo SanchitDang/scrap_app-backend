@@ -7,6 +7,7 @@ import productRoutes from './product.routes.js'
 import adminRoutes from './admin.routes.js'
 import serviceRequestRoutes from './serviceRequest.routes.js';
 import dashboardRoutes from './dashboard.routes.js';
+import appRoutes from "./app.routes.js";
 
 const router = Router();
 
@@ -17,5 +18,6 @@ router.use('/serviceRequests', serviceRequestRoutes);
 router.use('/categories', categoryRoutes);
 router.use('/products', productRoutes);
 router.use('/dashboard', dashboardRoutes);
+router.use('/app', appRoutes);
 
 export default router;

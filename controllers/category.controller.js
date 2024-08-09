@@ -22,6 +22,16 @@ export const getCategories = async (req, res) => {
   }
 };
 
+// Get all enabled categories
+export const getEnabledCategories = async (req, res) => {
+  try {
+    const categories = await categoryModel.find({disabled: false});
+    res.status(200).json(categories);
+  } catch (error) {
+    res.status(500).json({ message: 'Error fetching categories', error });
+  }
+};
+
 // Get category by ID
 export const getCategoryById = async (req, res) => {
   try {
@@ -52,5 +62,24 @@ export const deleteCategoryById = async (req, res) => {
     res.status(200).json({ message: 'Category deleted successfully' });
   } catch (error) {
     res.status(500).json({ message: 'Error deleting category', error });
+  }
+};
+
+// Disable Category by ID
+export const disableCategoryById = async (req, res) => {
+  try {
+    const disabledCategory = await categoryModel.findByIdAndUpdate(
+      req.params.id,
+      { $set: { disabled: { $not: "$disabled" } } },
+      { new: true }
+    );
+
+    if (!disabledCategory) {
+      return res.status(404).json({ message: 'Category not found' });
+    }
+
+    res.status(200).json({ message: 'Category disabled status updated successfully', disabledCategory });
+  } catch (error) {
+    res.status(500).json({ message: 'Error disabling Category', error: error.message });
   }
 };

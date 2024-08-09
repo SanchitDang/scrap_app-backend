@@ -18,8 +18,29 @@ const userSchema = new mongoose.Schema({
     type : String,
     required : true
   },
+  role: {
+    type: String,
+    enum: ['household',	'company', 'industry', 'trader', 'recycler', 'manufacturer'],
+    required: true
+  },
+  address: {
+    type: String,
+  },
+  city: {
+    type: String,
+  },
+  state: {
+    type: String,
+  },
+  pincode: {
+    type: String,
+  },
   image_url: {
     type: String
+  },
+  disabled: {
+    type: Boolean,
+    default: false
   }
 }, { timestamps: true });
 

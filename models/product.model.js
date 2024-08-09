@@ -15,6 +15,13 @@ const productSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Category',
     required: true
+  },
+  image_url: {
+    type: String
+  },
+  disabled: {
+    type: Boolean,
+    default: false
   }
 }, { timestamps: true });
 

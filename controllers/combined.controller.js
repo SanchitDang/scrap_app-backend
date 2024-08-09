@@ -2,6 +2,8 @@ import upload from '../middleware/uploadMiddleware.js';
 import adminModel from '../models/admin.model.js';
 import agentModel from '../models/agent.model.js';
 import userModel from '../models/user.model.js';
+import productModel from "../models/product.model.js";
+import categoryModel from "../models/category.model.js";
 
 export const uploadProfilePic = (req, res) => {
   upload(req, res, async (err) => {
@@ -27,6 +29,12 @@ export const uploadProfilePic = (req, res) => {
       } else if (user_type === 'user') {
         model = userModel;
         imagePath = `/public/uploads/user/${req.file.filename}`;
+      } else if (user_type === 'product') {
+        model = productModel;
+        imagePath = `/public/uploads/product/${req.file.filename}`;
+      } else if (user_type === 'category') {
+        model = categoryModel;
+        imagePath = `/public/uploads/category/${req.file.filename}`;
       }
 
       if (!model) {

@@ -19,6 +19,10 @@ const storage = multer.diskStorage({
       folder = 'uploads/agent';
     } else if (userType === 'user') {
       folder = 'uploads/user';
+    } else if (userType === 'product') {
+      folder = 'uploads/product';
+    } else if (userType === 'category') {
+      folder = 'uploads/category';
     }
 
     const dir = path.join(__dirname, `../public/${folder}`);
