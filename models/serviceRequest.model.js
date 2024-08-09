@@ -37,8 +37,7 @@ const serviceRequestSchema = new mongoose.Schema({
   },
   type : {
     type: String,
-    enum: ['waste-collection', 'buy-request', 'sell_request'],
-    default: 'pending'
+    enum: ['waste-collection', 'buy-request', 'sell-request'],
   },
   description: {
     type: String,
@@ -53,11 +52,9 @@ const serviceRequestSchema = new mongoose.Schema({
   amount_paid_each_product: [{
     product: {
       type: String,
-      required: true
     },
     amount_paid: {
       type: String, 
-      required: true
     }
   }]
 }, { timestamps: true });
