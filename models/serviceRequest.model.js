@@ -50,6 +50,9 @@ const serviceRequestSchema = new mongoose.Schema({
     type: String,
   },
   amount_paid_each_product: [{
+    quantity: {
+      type: String,
+    },
     product: {
       type: String,
     },
