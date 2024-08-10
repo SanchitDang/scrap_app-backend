@@ -18,6 +18,18 @@ const agentSchema = new mongoose.Schema({
     type : String,
     required : true
   },
+  address: {
+    type: String,
+  },
+  city: {
+    type: String,
+  },
+  state: {
+    type: String,
+  },
+  pincode: {
+    type: String,
+  },
   image_url: {
     type: String
   },
