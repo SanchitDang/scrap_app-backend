@@ -9,7 +9,7 @@ export const addServiceRequest = async (req, res) => {
     const { user_id, agent_id } = req.body;
     const user = await userModel.findById(user_id);
     const agent = await agentModel.findById(agent_id);
-    if (!user || !agent) return res.status(404).json({ message: 'User or Agent not found' });
+    if (!user) return res.status(404).json({ message: 'User not found' });
 
     const newServiceRequest = new serviceRequestModel(req.body);
     await newServiceRequest.save();

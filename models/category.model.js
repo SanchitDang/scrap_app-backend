@@ -12,7 +12,8 @@ const categorySchema = new mongoose.Schema({
     required: false
   },
   image_url: {
-    type: String
+    type: String,
+    default:""
   },
   disabled: {
     type: Boolean,

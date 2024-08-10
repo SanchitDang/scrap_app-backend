@@ -37,7 +37,8 @@ const adminSchema = new mongoose.Schema({
     default: 'admin' 
   },
   image_url: {
-    type: String
+    type: String,
+    default:""
   },
   disabled: {
     type: Boolean,
