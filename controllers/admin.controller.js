@@ -131,6 +131,31 @@ export const getDashboardData = async (req, res) => {
     const completedServiceRequestsCount = await serviceRequestModel.countDocuments({ status: 'completed' });
     const pendingServiceRequestsCount = await serviceRequestModel.countDocuments({ status: 'pending' });
     const recentServiceRequests = await serviceRequestModel.find().sort({ createdAt: -1 }).limit(5);
+    const serviceRequestsByCategory = await serviceRequestModel.aggregate([
+      { $unwind: "$category" },
+      {
+        $group: {
+          _id: "$category",
+          totalRequests: { $sum: 1 },
+          totalAmount: {
+            $sum: {
+              $sum: {
+                $map: {
+                  input: "$amount_paid_each_product",
+                  as: "item",
+                  in: {
+                    $multiply: [
+                      { $toDouble: "$$item.amount_paid" },
+                      { $toDouble: "$$item.quantity" }
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    ]);
 
     const dashboardData = {
       users: usersCount,
@@ -139,7 +164,8 @@ export const getDashboardData = async (req, res) => {
       service_requests: serviceRequestsCount,
       completed_service_requests: completedServiceRequestsCount,
       pending_service_requests: pendingServiceRequestsCount,
-      recent_service_requests: recentServiceRequests
+      recent_service_requests: recentServiceRequests,
+      service_requests_by_category: serviceRequestsByCategory
     };
 
     res.status(200).json(dashboardData);
