@@ -64,22 +64,3 @@ export const deleteAgentById = async (req, res) => {
     res.status(500).json({ message: 'Error deleting agent', error });
   }
 };
-
-// Disable Agent by ID
-export const disableAgentById = async (req, res) => {
-  try {
-    const disabledAgent = await agentModel.findByIdAndUpdate(
-      req.params.id,
-      { $set: { disabled: { $not: "$disabled" } } },
-      { new: true }
-    );
-
-    if (!disabledAgent) {
-      return res.status(404).json({ message: 'Agent not found' });
-    }
-
-    res.status(200).json({ message: 'Agent disabled status updated successfully', disabledAgent });
-  } catch (error) {
-    res.status(500).json({ message: 'Error disabling Agent', error: error.message });
-  }
-};

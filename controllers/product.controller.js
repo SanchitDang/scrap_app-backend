@@ -79,22 +79,3 @@ export const deleteProductById = async (req, res) => {
     res.status(500).json({ message: 'Error deleting product', error });
   }
 };
-
-// Disable Product by ID
-export const disableProductById = async (req, res) => {
-  try {
-    const disabledProduct = await productModel.findByIdAndUpdate(
-      req.params.id,
-      { $set: { disabled: { $not: "$disabled" } } },
-      { new: true }
-    );
-
-    if (!disabledProduct) {
-      return res.status(404).json({ message: 'Product not found' });
-    }
-
-    res.status(200).json({ message: 'Product disabled status updated successfully', disabledProduct });
-  } catch (error) {
-    res.status(500).json({ message: 'Error disabling Product', error: error.message });
-  }
-};

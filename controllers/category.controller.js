@@ -64,22 +64,3 @@ export const deleteCategoryById = async (req, res) => {
     res.status(500).json({ message: 'Error deleting category', error });
   }
 };
-
-// Disable Category by ID
-export const disableCategoryById = async (req, res) => {
-  try {
-    const disabledCategory = await categoryModel.findByIdAndUpdate(
-      req.params.id,
-      { $set: { disabled: { $not: "$disabled" } } },
-      { new: true }
-    );
-
-    if (!disabledCategory) {
-      return res.status(404).json({ message: 'Category not found' });
-    }
-
-    res.status(200).json({ message: 'Category disabled status updated successfully', disabledCategory });
-  } catch (error) {
-    res.status(500).json({ message: 'Error disabling Category', error: error.message });
-  }
-};

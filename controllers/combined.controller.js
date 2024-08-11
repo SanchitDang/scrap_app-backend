@@ -55,3 +55,42 @@ export const uploadProfilePic = (req, res) => {
     }
   });
 };
+
+export const toggleStatusById = async (req, res) => {
+  try {
+    const { user_type, user_id } = req.body;
+
+    let model;
+    if (user_type === 'admin') {
+      model = adminModel;
+    } else if (user_type === 'agent') {
+      model = agentModel;
+    } else if (user_type === 'user') {
+      model = userModel;
+    } else if (user_type === 'product') {
+      model = productModel;
+    } else if (user_type === 'category') {
+      model = categoryModel;
+    } else {
+      return res.status(400).json({ message: 'Invalid user type' });
+    }
+
+    const document = await model.findById(user_id);
+
+    if (!document) {
+      return res.status(404).json({ message: `${user_type} not found` });
+    }
+
+    const updatedStatus = !document.disabled;
+
+    const updatedDocument = await model.findByIdAndUpdate(
+      user_id,
+      { $set: { disabled: updatedStatus } },
+      { new: true }
+    );
+
+    res.status(200).json({ message: `${user_type} ${updatedStatus ? 'disabled' : 'enabled'} successfully`, updatedDocument });
+  } catch (error) {
+    res.status(500).json({ message: `Error updating ${user_type} status`, error: error.message });
+  }
+};
