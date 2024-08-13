@@ -1,7 +1,7 @@
 import { Router } from 'express';
-import { getDashboardData } from '../controllers/admin.controller.js';
+import { getDashboardData, toggleStatusById } from '../controllers/admin.controller.js';
 import { changeServiceRequestStatus } from '../controllers/serviceRequest.controller.js';
-import { uploadProfilePic, toggleStatusById } from "../controllers/combined.controller.js";
+import { uploadProfilePic } from "../controllers/combined.controller.js";
 
 const router = Router();
 
