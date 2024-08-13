@@ -5,9 +5,9 @@ import categoryModel from '../models/category.model.js';
 // Create a new product
 export const addProduct = async (req, res) => {
   try {
-    // const { category_id } = req.body;
-    // const category = await categoryModel.findById(category_id);
-    // if (!category) return res.status(404).json({ message: 'Category not found' });
+    const { category_id } = req.body;
+    const category = await categoryModel.findById(category_id);
+    if (!category) return res.status(404).json({ message: 'Category not found' });
 
     const newProduct = new productModel(req.body);
     await newProduct.save();
@@ -20,8 +20,7 @@ export const addProduct = async (req, res) => {
 // Get all products
 export const getProducts = async (req, res) => {
   try {
-    // const products = await productModel.find({}).populate('category_id');
-    const products = await productModel.find({});
+    const products = await productModel.find({}).populate('category_id');
     res.status(200).json(products);
   } catch (error) {
     res.status(500).json({ message: 'Error fetching products', error });
@@ -31,8 +30,7 @@ export const getProducts = async (req, res) => {
 // Get all enabled products
 export const getEnabledProducts = async (req, res) => {
   try {
-    // const products = await productModel.find({disabled: false}).populate('category_id');
-    const products = await productModel.find({disabled: false});
+    const products = await productModel.find({disabled: false}).populate('category_id');
     res.status(200).json(products);
   } catch (error) {
     res.status(500).json({ message: 'Error fetching products', error });
@@ -42,8 +40,7 @@ export const getEnabledProducts = async (req, res) => {
 // Get product by ID
 export const getProductById = async (req, res) => {
   try {
-    // const product = await productModel.findById(req.params.id).populate('category_id');
-    const product = await productModel.findById(req.params.id);
+    const product = await productModel.findById(req.params.id).populate('category_id');
     if (!product) return res.status(404).json({ message: 'Product not found' });
     res.status(200).json(product);
   } catch (error) {
@@ -54,14 +51,13 @@ export const getProductById = async (req, res) => {
 // Update product by ID
 export const updateProductById = async (req, res) => {
   try {
-    // const { category_id } = req.body;
-    // if (category_id) {
-    //   const category = await categoryModel.findById(category_id);
-    //   if (!category) return res.status(404).json({ message: 'Category not found' });
-    // }
+    const { category_id } = req.body;
+    if (category_id) {
+      const category = await categoryModel.findById(category_id);
+      if (!category) return res.status(404).json({ message: 'Category not found' });
+    }
 
-    // const updatedProduct = await productModel.findByIdAndUpdate(req.params.id, req.body, { new: true }).populate('category_id');
-    const updatedProduct = await productModel.findByIdAndUpdate(req.params.id, req.body, { new: true });
+    const updatedProduct = await productModel.findByIdAndUpdate(req.params.id, req.body, { new: true }).populate('category_id');
     if (!updatedProduct) return res.status(404).json({ message: 'Product not found' });
     res.status(200).json(updatedProduct);
   } catch (error) {
