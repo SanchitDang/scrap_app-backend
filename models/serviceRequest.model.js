@@ -43,6 +43,12 @@ const serviceRequestSchema = new mongoose.Schema({
     type: String,
     required: true
   },
+  appointment_date: {
+    type: String,
+  },
+  appointment_time: {
+    type: String,
+  },
   completion_date: {
     type: String,
   },

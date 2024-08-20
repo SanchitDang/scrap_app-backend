@@ -54,3 +54,34 @@ export const deleteUserById = async (req, res) => {
     res.status(500).json({ message: 'Error deleting user', error });
   }
 };
+
+// User login
+export const loginUser = async (req, res) => {
+  try {
+    const { email, password } = req.body;
+
+    if (!email || !password) {
+      return res.status(400).json({ message: "Required Fields not sent" });
+    }
+
+    const user = await userModel.findOne({ email });
+
+    if (!user) {
+      return res.status(400).json({ message: "User doesn't exist" });
+    }
+
+    // Validate password
+    if (password !== user.password) {
+      return res.status(401).json({ message: "Incorrect Password Provided" });
+    }
+
+    return res.status(200).json({
+      message: "Successfully logged in.",
+      result: {
+        user
+      },
+    });
+  } catch (error) {
+    return res.status(500).json({ error: "Internal Server Error", message: error.message });
+  }
+};
