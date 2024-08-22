@@ -31,6 +31,15 @@ const adminSchema = new mongoose.Schema({
   pincode: {
     type: String,
   },
+  company_name: {
+    type: String,
+  },
+  pan: {
+    type: String,
+  },
+  gst: {
+    type: String,
+  },
   role : { 
     type: String, 
     enum: ['admin', 'inventory-manager'], 

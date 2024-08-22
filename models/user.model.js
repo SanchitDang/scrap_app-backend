@@ -35,6 +35,15 @@ const userSchema = new mongoose.Schema({
   pincode: {
     type: String,
   },
+  company_name: {
+    type: String,
+  },
+  pan: {
+    type: String,
+  },
+  gst: {
+    type: String,
+  },
   image_url: {
     type: String,
     default:""
