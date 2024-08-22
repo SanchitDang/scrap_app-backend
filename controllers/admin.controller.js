@@ -154,7 +154,8 @@ export const getDashboardData = async (req, res) => {
                 }
               }
             }
-          }
+          },
+          no_service_req_for_category: { $sum: 1 }
         }
       }
     ]);
