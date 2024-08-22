@@ -155,7 +155,17 @@ export const getDashboardData = async (req, res) => {
               }
             }
           },
-          no_service_req_for_category: { $sum: 1 }
+          totalQuantities: { 
+            $sum: {
+              $sum: {
+                $map: {
+                  input: "$amount_paid_each_product",
+                  as: "item",
+                  in: { $toDouble: "$$item.quantity" }
+                }
+              }
+            }
+          }
         }
       }
     ]);
