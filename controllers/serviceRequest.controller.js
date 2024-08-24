@@ -111,7 +111,9 @@ export const addAgentToRequest = async (req, res) => {
       request_id,
       { $set: { agent_id: agent_id } }, // Use $set to specify the update operation
       { new: true } // Option to return the updated document
-    );
+    )
+    .populate('user_id') // Populate user_id field
+    .populate('ignored_agents'); // Populate ignored_agents field which will include the agent_id
 
     if (!updatedRequest) {
       return res.status(404).json({ message: 'Service request not found' });
@@ -136,7 +138,10 @@ export const ignoreAgentToRequest = async (req, res) => {
       request_id,
       { $addToSet: { ignored_agents: agent_id } }, // Use $addToSet to ensure no duplicates
       { new: true } // Return the updated document
-    );
+    )
+    .populate('user_id') // Populate user_id field
+    .populate('ignored_agents'); // Populate ignored_agents field which will include the agent_id
+
 
     if (!updatedRequest) {
       return res.status(404).json({ message: 'Service request not found' });
