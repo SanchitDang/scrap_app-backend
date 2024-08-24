@@ -65,7 +65,10 @@ const serviceRequestSchema = new mongoose.Schema({
     amount_paid: {
       type: String, 
     }
-  }]
+  }],
+  ignored_agents: {
+    type: [String]
+  }
 }, { timestamps: true });
 
 const serviceRequestModel = mongoose.model('serviceRequest', serviceRequestSchema);

@@ -1,5 +1,6 @@
 // controllers/agent.controller.js
 import agentModel from '../models/agent.model.js';
+import serviceRequestModel from '../models/serviceRequest.model.js';
 
 // Create a new agent
 export const addAgent = async (req, res) => {
